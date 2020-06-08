@@ -1,0 +1,14 @@
+labels:
+  io.cattle.role: project 
+categories:
+- Systex
+- Lab
+- SCM
+namespace: default
+questions:
+- label: "您的對外IP"
+  description: "例如 35.123.23.45"
+  variable: externalHost
+  type: string
+  group: "ip設定"
+  required: true  

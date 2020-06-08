@@ -1,0 +1,23 @@
+{{- if .Values.ingress.enabled  }}
+apiVersion: apps/v1
+kind: Ingress
+metadata:
+  name: {{ template "fullname" . }}ingress
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  annotations:
+{{ toYaml .Values.ingress.ingress_annotations | indent 4 }}
+spec:
+  rules:
+  - host: {{ template "externalHost" . }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "fullname" . }}-http
+          servicePort: {{ .Values.service.http.port }}
+{{- end -}}

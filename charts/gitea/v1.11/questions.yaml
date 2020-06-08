@@ -8,7 +8,7 @@ namespace: default
 questions:
 - label: "您的對外IP"
   description: "例如 35.123.23.45"
-  variable: externalHost
+  variable: externalIp
   type: string
   group: "ip設定"
   required: true  

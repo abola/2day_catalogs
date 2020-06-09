@@ -1,0 +1,26 @@
+labels:
+  io.cattle.role: project 
+categories:
+- Systex
+- Lab
+- CICD
+namespace: default
+questions:
+- label: "您的對外IP"
+  description: "例如 35.123.23.45"
+  variable: externalIp
+  type: string
+  group: "ip設定"
+  required: true  
+- label: "Gitea Client ID"
+  description: ""
+  variable: sourceControl.gitea.clientID
+  type: string
+  group: "Gitea OAuth2 整合"
+  required: true
+- label: "Gitea Client Secret"
+  description: ""
+  variable: sourceControl.gitea.clientSecretValue
+  type: string
+  group: "Gitea OAuth2 整合"
+  required: true

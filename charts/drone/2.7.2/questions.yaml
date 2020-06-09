@@ -24,3 +24,10 @@ questions:
   type: string
   group: "Gitea OAuth2 整合"
   required: true
+- label: "Gitea Server"
+  description: "您的 gitea server 位置"
+  variable: sourceControl.gitea.server
+  default: "http://gitea.<your_ip>.nip.io/"
+  type: string
+  group: "Gitea OAuth2 整合"
+  required: true

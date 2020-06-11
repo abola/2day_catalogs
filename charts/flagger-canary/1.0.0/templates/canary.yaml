@@ -2,7 +2,7 @@
 {{- $svcPort := .Values.service.port -}}
 {{- $ns := .Release.Namespace -}}
 {{- $loadurl := printf "http://flagger-loadtester.%s/" $ns -}}
-{{- $canary_acceptance_test_cmd := printf "curl -sd 'test' http://%s-canary.%s/token | grep token"  $fullName $ns -}}
+{{- $canary_acceptance_test_cmd := printf "curl -sd 'test' http://%s-canary.%s/ "  $fullName $ns -}}
 {{- $canary_loadtest_cmd := printf "hey -z 1m -q 10 -c 2 http://%s/" (index .Values.ingress.hosts 0).host -}}
 {{- $bluegreen_acceptance_test_cmd := printf "curl -sd 'test' http://%s-canary.%s/token | grep token"  $fullName $ns -}}
 {{- $bluegreen_loadtest_cmd := printf "hey -z 1m -q 10 -c 2 http://%s-canary.%s/" $fullName $ns -}}

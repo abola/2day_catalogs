@@ -8,14 +8,14 @@ questions:
 - label: "Image repository"
   description: "ex: nginx"
   variable: image.repository
-  default: "stefanprodan/podinfo"
+  default: "systexdevops/2day_example_python"
   type: string
   group: "Deployment"
   required: true
 - label: "Image Tag"
   description: "ex: latest"
   variable: image.tag
-  default: "3.1.0"
+  default: "green"
   type: string
   group: "Deployment"
   required: true
@@ -26,13 +26,11 @@ questions:
     金絲雀部署更新(Canary): 
     藍綠部署更新(BlueGreen): 
   variable: update.mode
-  default: "RollingUpdate"
+  default: "Canary"
   type: enum
   group: "Deployment"
   options:
-    - "Rolling"
     - "Canary"
-    - "BlueGreen"
   required: true
 - label: "Hostname"
   variable: ingress.hosts[0].host
@@ -48,7 +46,7 @@ questions:
   group: "Ingress 設定"
 - label: "Port"
   variable: service.port
-  default: 8080
+  default: 3000
   description: "Service http port"
   type: string
   group: "Service"

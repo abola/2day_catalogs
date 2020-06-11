@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "flagger.fullname" . }}-prometheus
+  labels:
+    helm.sh/chart: {{ template "flagger.chart" . }}
+    app.kubernetes.io/name: {{ template "flagger.name" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  rules:
+  - host: {{ template "externalHost" . }}
+    http:
+      paths:
+      - backend:
+          serviceName: flagger-prometheus
+          servicePort: 9090

@@ -40,3 +40,7 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{- define "externalHost" -}}
+{{- printf "prometheus.%s.nip.io" .Values.externalIp  -}}
+{{- end -}}

@@ -1,0 +1,6 @@
+labels:
+  io.cattle.role: project 
+categories:
+- Systex
+- Deployment
+namespace: default

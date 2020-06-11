@@ -1,0 +1,53 @@
+labels:
+  io.cattle.role: project 
+categories:
+- Systex
+- Deployment
+questions:
+- label: "Image repository"
+  description: "ex: nginx"
+  variable: image.repository
+  default: "stefanprodan/podinfo"
+  type: string
+  group: "Deployment"
+  required: true
+- label: "Image Tag"
+  description: "ex: latest"
+  variable: image.tag
+  default: "3.1.0"
+  type: string
+  group: "Deployment"
+  required: true
+- label: "更新策略"
+  description: |
+    滾動式更新(Rolling):
+    重啟式更新(Recreate): 
+    金絲雀部署更新(Canary): 
+    藍綠部署更新(BlueGreen): 
+  variable: update.mode
+  default: "RollingUpdate"
+  type: enum
+  group: "Deployment"
+  options:
+    - "Rolling"
+    - "Canary"
+    - "BlueGreen"
+  required: true
+- label: "Hostname"
+  variable: ingress.hosts[0].host
+  default: ""
+  description: "服務 Ingress"
+  type: hostname
+  group: "Ingress 設定"
+- label: "host path"
+  variable: ingress.hosts[0].paths[0]
+  default: "/"
+  description: "Path"
+  type: string
+  group: "Ingress 設定"
+- label: "Port"
+  variable: service.port
+  default: 8080
+  description: "Service http port"
+  type: string
+  group: "Service"

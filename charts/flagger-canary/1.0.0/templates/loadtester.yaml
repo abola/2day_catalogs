@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flagger-loadtester
+  labels:
+    app.kubernetes.io/name: {{ include "deployment-templates.fullname" . }}-loadtester
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "deployment-templates.fullname" . }}-loadtester
+    app.kubernetes.io/instance: {{ .Release.Name }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flagger-loadtester
+  labels:
+    app.kubernetes.io/name: {{ include "deployment-templates.fullname" . }}-loadtester
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "deployment-templates.fullname" . }}-loadtester
+      app.kubernetes.io/instance: {{ .Release.Name }}  
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "deployment-templates.fullname" . }}-loadtester
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- with .Values.loadtester.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    spec:
+      containers:
+        - name: loadtester
+          image: "{{ .Values.loadtester.image.repository }}:{{ .Values.loadtester.image.tag }}"
+          imagePullPolicy: {{ .Values.loadtester.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+          command:
+            - ./loadtester
+            - -port=8080
+            - -log-level={{ .Values.loadtester.logLevel }}
+            - -timeout={{ .Values.loadtester.cmd.timeout }}
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - --quiet
+                - --tries=1
+                - --timeout=4
+                - --spider
+                - http://localhost:8080/healthz
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - --quiet
+                - --tries=1
+                - --timeout=4
+                - --spider
+                - http://localhost:8080/healthz
+            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.loadtester.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
